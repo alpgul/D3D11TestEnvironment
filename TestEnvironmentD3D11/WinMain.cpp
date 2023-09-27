@@ -4,6 +4,7 @@
 #include <d2d1.h>
 #include <dwrite.h>
 #include <DirectXMath.h>
+#include <WinUser.h>
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
@@ -91,7 +92,9 @@ bool InitD3D( HWND hWnd)
 		return false;
 
 	float dpiX, dpiY;
-	pD2DFactory->GetDesktopDpi( &dpiX, &dpiY );
+	HDC hdc = GetDC(hWnd);
+	 dpiX = static_cast<float>(GetDeviceCaps(hdc, LOGPIXELSX));
+	 dpiY = static_cast<float>(GetDeviceCaps(hdc, LOGPIXELSY));
 	D2D1_RENDER_TARGET_PROPERTIES rtp;
 	ZeroMemory( &rtp, sizeof( rtp ) );
 	rtp.dpiX = dpiX;
